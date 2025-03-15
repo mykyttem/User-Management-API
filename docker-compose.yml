@@ -1,21 +1,52 @@
 version: "3.8"
 
-services:
-    app:
-        build: ./app
-        ports:
-            - "5000:5000"
-        environment:
-            - DATABASE_URL=${DATABASE_URL}
-        depends_on:
-            - db
+networks:
+    ntalphash:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.20.0.0/24
 
+services:
     db:
         image: mysql:5.7
-        environment:
-            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-            MYSQL_DATABASE: ${MYSQL_DATABASE}
-            MYSQL_USER: ${MYSQL_USER}
-            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        restart: unless-stopped
+        container_name: db
+        volumes:
+            - data-volume:/var/lib/mysql
+        networks:
+            ntalphash:
+                ipv4_address: 172.20.0.2
         ports:
-            - "3307:3306"
+            - "3390:3306"
+        environment:
+            - DB_PASSWORD={DB_PASSWORD}
+            - DATABASE_URL=${DATABASE_URL}
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "db", "-u", "root", "-proot"]
+            interval: 10s
+            retries: 5
+            start_period: 20s
+
+    app:
+        container_name: app
+        build:
+            context: ./app
+            dockerfile: Dockerfile
+        restart: unless-stopped
+        ports:
+            - "5000:5000"
+        depends_on:
+            db:
+                condition: service_healthy
+        environment:
+            - DATABASE_URL=${DATABASE_URL}
+        command: bash -c "flask run --host=0.0.0.0 --port=5000"
+        env_file:
+            - .env
+        networks:
+            - ntalphash
+
+volumes:
+    data-volume:
