@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
 
 # Load environment variables
-# Configure logging
 load_dotenv()
 
 # Get database connection parameters from .env
@@ -31,7 +30,7 @@ db = SQLAlchemy()
 try:
     engine = create_engine(DATABASE_URL)
     with engine.connect() as connection:
-        logger.info("✅ Successfully connected to the database.")
+        logger.info(f"✅ Successfully connected to the database from {__file__}.")
 
         # Fetch available databases
         databases = connection.execute(text("SHOW DATABASES;")).fetchall()
@@ -42,4 +41,4 @@ try:
         logger.info(f"📋 Tables in {DB_NAME}: {[table[0] for table in tables]}")
 
 except Exception as e:
-    logger.error(f"❌ Failed to connect to database: {e}")
+    logger.error(f"❌ Failed to connect to database in {__file__}: {e}")
