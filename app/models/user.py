@@ -26,3 +26,6 @@ class User(db.Model):
         db.session.add(new_user)
         db.session.commit()
         return new_user
+    
+    def get_all_users(self):
+        return User.query.all()

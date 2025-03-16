@@ -8,3 +8,6 @@ class UserService:
         if User.query.filter_by(email=email).first():
             raise ValueError("Email already exists")
         return User.create(name, email)
+    
+    def get_all_users(self):
+        return User.query.all()

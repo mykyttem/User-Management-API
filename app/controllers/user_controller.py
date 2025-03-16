@@ -1,5 +1,8 @@
 from flask import jsonify, request
+
 from app.services.user_service import UserService
+from app.utils.logger import logger
+
 
 def create_user():
     try:
@@ -15,4 +18,15 @@ def create_user():
     except ValueError as e:
         return jsonify({"message": str(e)}), 400
     except Exception as e:
+        return jsonify({"message": "Something went wrong"}), 500
+
+
+def get_all_users():
+    try:
+        user_service = UserService()
+        users = user_service.get_all_users()
+
+        return jsonify([user.to_dict() for user in users]), 200
+    except Exception as e:
+        logger.error(f"Error in get_all_users: {str(e)}")
         return jsonify({"message": "Something went wrong"}), 500
