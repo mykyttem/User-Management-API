@@ -1,11 +1,6 @@
-from flask import jsonify
-from dotenv import load_dotenv
 from app import create_app
-
-load_dotenv()
 
 app = create_app()
 
-@app.route("/")
-def home():
-    return jsonify({"message": "Hello world"})
+if __name__ == "__main__":
+    app.run(debug=True)

@@ -1,10 +1,12 @@
 from flask import Flask
 from flask_migrate import Migrate
+from sqlalchemy.exc import OperationalError
+from dotenv import load_dotenv
+
 from app.utils.logger import logger
 from app.db.database import db
 from app.config import Config
-from sqlalchemy.exc import OperationalError
-from dotenv import load_dotenv
+from app.routes.user_routes import user_bp
 
 # Import the User model to make it available to Alembic
 from app.models.user import User
@@ -16,6 +18,8 @@ logger.info("Initializing the Flask app.")
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
+
+    app.register_blueprint(user_bp, url_prefix='/users')
 
     migrate = Migrate()
     db.init_app(app)

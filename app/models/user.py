@@ -19,3 +19,10 @@ class User(db.Model):
             'email': self.email,
             'created_at': self.created_at
         }
+
+    @classmethod
+    def create(cls, name, email):
+        new_user = cls(name=name, email=email)
+        db.session.add(new_user)
+        db.session.commit()
+        return new_user
