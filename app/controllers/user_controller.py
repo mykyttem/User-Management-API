@@ -1,16 +1,15 @@
 from flask import jsonify, request
-
 from app.services.user_service import UserService
 from app.utils.logger import logger
-
 
 def create_user():
     try:
         data = request.get_json()
 
+        # Basic validation for name and email fields
         if not data.get('name') or not data.get('email'):
             return jsonify({"message": "Name and email are required"}), 400
-
+        
         user_service = UserService()
         user = user_service.create_user(data['name'], data['email'])
         
@@ -30,7 +29,7 @@ def get_all_users():
     except Exception as e:
         logger.error(f"Error in get_all_users: {str(e)}")
         return jsonify({"message": "Something went wrong"}), 500
-    
+   
 
 def get_user_by_id(user_id):
     try:
@@ -44,12 +43,13 @@ def get_user_by_id(user_id):
     except Exception as e:
         logger.error(f"Error in get_user_by_id: {str(e)}")
         return jsonify({"message": "Something went wrong"}), 500
-    
+   
 
 def update_user(user_id):
     try:
         data = request.get_json()
 
+        # Basic validation for name and email fields
         if not data.get('name') or not data.get('email'):
             return jsonify({"message": "Name and email are required"}), 400
 
@@ -62,7 +62,7 @@ def update_user(user_id):
     except Exception as e:
         logger.error(f"Error in update_user: {str(e)}")
         return jsonify({"message": "Something went wrong"}), 500
-    
+
 
 def delete_user(user_id):
     try:
