@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from app.utils.logger import logger
 from app.db.database import db
 from app.config import Config
-from app.routes.user_routes import user_bp, register_user_namespace
+from app.routes.user_routes import register_user_namespace
 
 # Import the User model to make it available to Alembic
 from app.models.user import User
@@ -26,7 +26,6 @@ def create_app(config_class=Config):
             doc="/swagger/",
             validate=True
             )
-    app.register_blueprint(user_bp, url_prefix='/api')
     register_user_namespace(api)
 
 
