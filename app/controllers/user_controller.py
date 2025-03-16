@@ -30,3 +30,17 @@ def get_all_users():
     except Exception as e:
         logger.error(f"Error in get_all_users: {str(e)}")
         return jsonify({"message": "Something went wrong"}), 500
+    
+
+def get_user_by_id(user_id):
+    try:
+        user_service = UserService()
+        user = user_service.get_user_by_id(user_id)
+        
+        if user:
+            return jsonify(user.to_dict()), 200
+        else:
+            return jsonify({"message": "User not found"}), 404
+    except Exception as e:
+        logger.error(f"Error in get_user_by_id: {str(e)}")
+        return jsonify({"message": "Something went wrong"}), 500

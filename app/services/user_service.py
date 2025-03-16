@@ -11,3 +11,6 @@ class UserService:
     
     def get_all_users(self):
         return User.query.all()
+
+    def get_user_by_id(self, user_id):
+        return User.query.get(user_id)
