@@ -5,8 +5,8 @@ WORKDIR /app
 COPY ./requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY entrypoint.sh /app/
-RUN chmod +x ./entrypoint.sh
+COPY ./entrypoint.sh /app/
+RUN chmod +x entrypoint.sh
 
 COPY . /app/
 
@@ -16,4 +16,4 @@ ENV FLASK_ENV=development
 
 EXPOSE 5000
 
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["bash", "/app/entrypoint.sh"]

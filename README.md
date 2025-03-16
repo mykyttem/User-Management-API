@@ -95,6 +95,11 @@ Configuration Layer (config.py, Dockerfile) - Contains all the necessary configu
 
 
 ## Notes
-The entrypoint.sh script is used to check for and apply any pending database migrations before starting the Flask app.
 
-Ensure that you have the correct database configuration in your .env file.
+The `entrypoint.sh` script is used to check for and apply any pending database migrations before starting the Flask app.
+
+Ensure that you have the correct database configuration in your `.env` file.
+
+### Potential Issue with Line Endings (CRLF) on Windows
+
+If you are running this project on Windows, you may encounter issues with the `entrypoint.sh` script due to Windows-style line endings (`\r\n`, known as CRLF). This can cause errors like:

@@ -48,7 +48,7 @@ services:
             - "5000:5000"
         volumes:
             - ./app:/app
-        command: ["/app/entrypoint.sh"]
+        command: ["entrypoint.sh"]
         depends_on:
             db:
                 condition: service_healthy

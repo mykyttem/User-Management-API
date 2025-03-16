@@ -19,4 +19,4 @@ flask db upgrade
 echo "✅ Database migrations applied successfully!"
 
 # Launching the application
-exec flask run --host=0.0.0.0 --port=5000 --debug
+flask run --host=0.0.0.0 --port=5000 --debug
