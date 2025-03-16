@@ -62,3 +62,18 @@ def update_user(user_id):
     except Exception as e:
         logger.error(f"Error in update_user: {str(e)}")
         return jsonify({"message": "Something went wrong"}), 500
+    
+
+def delete_user(user_id):
+    try:
+        user_service = UserService()
+        user = user_service.get_user_by_id(user_id)
+        
+        if user:
+            user_service.delete_user(user_id)
+            return jsonify({"message": "User deleted successfully"}), 200
+        else:
+            return jsonify({"message": "User not found"}), 404
+    except Exception as e:
+        logger.error(f"Error in delete_user: {str(e)}")
+        return jsonify({"message": "Something went wrong"}), 500

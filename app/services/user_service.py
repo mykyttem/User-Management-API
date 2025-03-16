@@ -29,3 +29,11 @@ class UserService:
         db.session.commit()
         
         return user
+
+    def delete_user(self, user_id):
+        user = User.query.get(user_id)
+        if user:
+            db.session.delete(user)
+            db.session.commit()
+        else:
+            raise ValueError("User not found")
